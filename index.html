@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Xayrli tong, Gulim ☀️</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans (oʻ, gʻ harflarini toʻliq qoʻllab-quvvatlaydi) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            sunriseIvory: '#fffbf7',
+            softBlush: '#fff1f2',
+            warmPeach: '#ffedd5',
+            roseDeep: '#be123c',
+            burgundyText: '#4c0519',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100dvh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at 80% 10%, #fef3c7 0%, #ffedd5 32%, #ffe4e6 72%, #fecdd3 100%);
+      color: #4c0519;
+      overflow-x: hidden;
+    }
+
+    /* Tonggi quyosh nurlari animatsiyasi */
+    .sun-glow {
+      position: fixed;
+      top: -120px;
+      right: -120px;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(253, 224, 71, 0.55) 0%, rgba(251, 146, 60, 0.2) 45%, transparent 72%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: sunPulse 7s ease-in-out infinite alternate;
+    }
+
+    @keyframes sunPulse {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.75; }
+      100% { transform: scale(1.18) translate(-15px, 15px); opacity: 1; }
+    }
+
+    /* Glassmorphism kartochkalar */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      box-shadow: 0 24px 60px -15px rgba(159, 18, 57, 0.16), 0 8px 20px -8px rgba(251, 146, 60, 0.14);
+    }
+
+    .music-pill {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(253, 186, 116, 0.55);
+      box-shadow: 0 10px 28px rgba(136, 19, 55, 0.12);
+    }
+
+    /* Ekvalayzer chiziqlari */
+    .eq-bar {
+      width: 3px;
+      height: 12px;
+      background-color: #be123c;
+      border-radius: 9999px;
+      transform-origin: bottom;
+      transition: transform 0.2s ease;
+    }
+    .eq-playing .eq-bar:nth-child(1) { animation: eqBounce 0.75s ease-in-out infinite alternate; }
+    .eq-playing .eq-bar:nth-child(2) { animation: eqBounce 0.55s ease-in-out 0.15s infinite alternate; }
+    .eq-playing .eq-bar:nth-child(3) { animation: eqBounce 0.85s ease-in-out 0.3s infinite alternate; }
+    .eq-playing .eq-bar:nth-child(4) { animation: eqBounce 0.6s ease-in-out 0.1s infinite alternate; }
+    .eq-paused .eq-bar { transform: scaleY(0.3); opacity: 0.5; }
+
+    @keyframes eqBounce {
+      0% { transform: scaleY(0.25); }
+      100% { transform: scaleY(1); }
+    }
+
+    /* 3D Konvert dizayni va ochilish animatsiyasi */
+    .envelope-stage {
+      perspective: 1200px;
+    }
+
+    .envelope-box {
+      position: relative;
+      width: 100%;
+      max-width: 330px;
+      height: 215px;
+      margin: 0 auto;
+      cursor: pointer;
+      transform-style: preserve-3d;
+      animation: floatEnvelope 3.8s ease-in-out infinite;
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s ease;
+    }
+
+    @keyframes floatEnvelope {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .envelope-back {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #fecdd3, #fda4af);
+      border-radius: 20px;
+      box-shadow: 0 22px 45px -12px rgba(159, 18, 57, 0.28);
+    }
+
+    .envelope-letter-preview {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      top: 14px;
+      bottom: 14px;
+      background: #fffbf7;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+      transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .envelope-pocket {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      border-radius: 20px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .envelope-pocket::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 228, 230, 0.96) 50%, transparent 50.5%),
+                  linear-gradient(225deg, rgba(254, 205, 211, 0.96) 50%, transparent 50.5%);
+      background-size: 100% 100%;
+    }
+
+    .envelope-pocket::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 62%;
+      background: linear-gradient(180deg, #ffe4e6 0%, #fecdd3 100%);
+      clip-path: polygon(0 100%, 50% 12%, 100% 100%);
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 58%;
+      background: linear-gradient(180deg, #fb7185 0%, #f43f5e 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      transform-origin: top center;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+    }
+
+    .wax-seal {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 54px;
+      height: 54px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 30% 30%, #e11d48, #881337);
+      border: 2px solid rgba(254, 240, 138, 0.7);
+      box-shadow: 0 8px 20px rgba(136, 19, 55, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      z-index: 5;
+      transition: transform 0.45s ease, opacity 0.4s ease;
+    }
+
+    /* Konvert ochilgan holat */
+    .envelope-box.is-open {
+      animation: none;
+    }
+    .envelope-box.is-open .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+    .envelope-box.is-open .wax-seal {
+      transform: translate(-50%, -50%) scale(0.4);
+      opacity: 0;
+    }
+    .envelope-box.is-open .envelope-letter-preview {
+      transform: translateY(-78px);
+    }
+
+    /* 3D Flip Kartochkalar (3 ta va'da) */
+    .flip-card {
+      perspective: 1000px;
+      height: 112px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .flip-card-front {
+      background: linear-gradient(135deg, rgba(255, 251, 247, 0.95), rgba(255, 237, 213, 0.75));
+      border: 1px solid rgba(253, 186, 116, 0.6);
+      box-shadow: 0 6px 18px rgba(136, 19, 55, 0.06);
+    }
+    .flip-card-back {
+      background: linear-gradient(135deg, #be123c, #9f1239);
+      color: #fffbf7;
+      transform: rotateY(180deg);
+      box-shadow: 0 10px 24px rgba(159, 18, 57, 0.25);
+    }
+
+    /* Matn paydo bo'lish animatsiyasi */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Yurakcha pulsatsiyasi */
+    .heart-beat {
+      display: inline-block;
+      animation: heartBeatAnim 1.4s ease-in-out infinite;
+    }
+    @keyframes heartBeatAnim {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.22); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.16); }
+      70% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="relative min-h-[100dvh] flex flex-col items-center justify-center px-4 pt-20 pb-12 selection:bg-rose-200 selection:text-burgundyText">
+
+  <!-- Fon Canvas: Tonggi quyosh uchqunlari, atirgul yaproqlari, mayin yurakchalar va salyut -->
+  <canvas id="ambientCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+  <div class="sun-glow"></div>
+
+  <!-- Fon musiqasi: Izzat Shukurov - Oshiqman -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto" autoplay></audio>
+
+  <!-- Yuqori suzuvchi Glassmorphic Mini Musiqa Pleyeri -->
+  <button id="audioToggleBtn" type="button" aria-label="Musiqani ijro etish yoki toʻxtatish"
+    class="fixed top-4 right-4 left-4 sm:left-auto z-50 music-pill rounded-full px-4 py-2.5 flex items-center justify-between sm:justify-start gap-3 text-xs sm:text-sm font-semibold text-burgundyText active:scale-95 transition-transform">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div id="eqVisualizer" class="flex items-end gap-[2.5px] h-3.5 eq-paused shrink-0">
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+        <span class="eq-bar"></span>
+      </div>
+      <span class="truncate">Izzat Shukurov — Oshiqman</span>
+    </div>
+    <span id="musicActionBadge" class="shrink-0 px-2.5 py-0.5 rounded-full bg-rose-100 text-roseDeep text-[11px] font-bold">
+      Yoqish
+    </span>
+  </button>
+
+  <!-- 1-BOSQICH: INTERAKTIV 3D KONVERT EKRANI -->
+  <section id="envelopeStage" class="relative z-10 w-full max-w-md mx-auto text-center transition-all duration-700">
+    <p class="text-xs uppercase tracking-[0.22em] text-rose-700/80 font-bold mb-2">
+      Tonggi maxsus maktub ✨
+    </p>
+    <h1 class="font-serif font-bold text-3xl sm:text-4xl text-burgundyText mb-2">
+      Xayrli tong, Gulim ☀️
+    </h1>
+    <p class="text-sm text-rose-900/80 mb-8 max-w-xs mx-auto">
+      Alidan senga atalgan kichik bir dil izhori bor. Ochish uchun konvert ustiga bos...
+    </p>
+
+    <div class="envelope-stage py-2">
+      <div id="envelopeBox" class="envelope-box" role="button" tabindex="0" aria-label="Konvertni ochish">
+        <div class="envelope-back"></div>
+
+        <!-- Konvert ichidan chiqadigan qog'oz -->
+        <div class="envelope-letter-preview">
+          <span class="text-xs uppercase tracking-widest text-rose-500 font-semibold">Alidan Gulimga</span>
+          <p class="font-serif italic text-lg text-burgundyText mt-1">Kechir meni, hayotim...</p>
+        </div>
+
+        <div class="envelope-pocket"></div>
+        <div class="envelope-flap"></div>
+
+        <!-- Yurakli muhr -->
+        <div class="wax-seal">💌</div>
+      </div>
+    </div>
+
+    <div class="mt-7">
+      <button id="openEnvelopeBtn" type="button"
+        class="px-6 py-2.5 rounded-full bg-white/80 hover:bg-white border border-rose-200 text-roseDeep font-semibold text-xs sm:text-sm shadow-sm active:scale-95 transition-all">
+        Konvertni ochish ✨
+      </button>
+    </div>
+  </section>
+
+  <!-- 2-BOSQICH: ASOSIY ROMANTIK MAKTUB VA 3D KARTALAR -->
+  <main id="letterStage" class="hidden relative z-10 w-full max-w-md mx-auto opacity-0 translate-y-4 transition-all duration-700">
+    <article class="glass-card rounded-3xl p-6 sm:p-8">
+
+      <!-- Sarlavha -->
+      <header class="text-center border-b border-rose-200/70 pb-5 mb-5">
+        <span class="inline-block px-3 py-1 rounded-full bg-amber-100/80 text-amber-900 text-[11px] font-bold uppercase tracking-widest mb-2">
+          Alidan • Gulimga ☀️
+        </span>
+        <h2 class="font-serif font-bold text-3xl sm:text-4xl text-burgundyText leading-tight">
+          Xayrli tong, Gulim <span class="heart-beat">❤️</span>
+        </h2>
+      </header>
+
+      <!-- Harfma-harf yoziladigan (Typewriter) samimiy maktub -->
+      <section class="space-y-4 text-[15px] sm:text-base text-rose-950/90 leading-relaxed">
+        <div id="typewriterContainer" class="min-h-[125px] font-normal"></div>
+
+        <blockquote id="songQuote" class="fade-up border-l-[3px] border-rose-400 pl-4 py-2.5 my-4 italic font-serif text-base sm:text-lg text-burgundyText bg-gradient-to-r from-rose-50/90 to-amber-50/50 rounded-r-2xl">
+          “Oshiqman seni hammadan qizgʻonib sevgan, faqat sen uchun dunyoga kelgan...”
+        </blockquote>
+      </section>
+
+      <!-- Kechirishing uchun 3 ta va'da (3D Flip Cards) -->
+      <section id="promisesSection" class="fade-up mt-7 pt-6 border-t border-rose-200/70">
+        <h3 class="font-serif font-bold text-xl text-burgundyText text-center mb-1">
+          Kechirishing uchun 3 ta vaʼda
+        </h3>
+        <p class="text-xs text-center text-rose-600/85 mb-4">
+          Har bir kartochkani bosib aylantirib koʻr, Gulim ✨
+        </p>
+
+        <div class="space-y-3">
+          <!-- 1-karta -->
+          <div class="flip-card" role="button" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-rose-500">1-vaʼda</span>
+                  <span class="text-xs text-amber-700 font-medium">Aylantirish ↻</span>
+                </div>
+                <p class="font-serif font-semibold text-base sm:text-lg text-burgundyText mt-1">
+                  Koʻnglingni koʻz qorachigʻimdek asrayman 🌸
+                </p>
+              </div>
+              <div class="flip-card-back">
+                <p class="text-xs sm:text-sm leading-relaxed text-center font-medium">
+                  Hech qachon bilib-bilmay dilingni ogʻritmaslikka, har bir soʻzimni senga mehr bilan aytishga vaʼda beraman, Gulim.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2-karta -->
+          <div class="flip-card" role="button" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-rose-500">2-vaʼda</span>
+                  <span class="text-xs text-amber-700 font-medium">Aylantirish ↻</span>
+                </div>
+                <p class="font-serif font-semibold text-base sm:text-lg text-burgundyText mt-1">
+                  Tabassuming sababchisi boʻlaman ☀️
+                </p>
+              </div>
+              <div class="flip-card-back">
+                <p class="text-xs sm:text-sm leading-relaxed text-center font-medium">
+                  Yuzingdagi kulgu hech qachon soʻnmasligi uchun har tong senga quvonch va mehr ulashishga tayyorman, hayotim.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-karta -->
+          <div class="flip-card" role="button" tabindex="0">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-rose-500">3-vaʼda</span>
+                  <span class="text-xs text-amber-700 font-medium">Aylantirish ↻</span>
+                </div>
+                <p class="font-serif font-semibold text-base sm:text-lg text-burgundyText mt-1">
+                  Seni hammadan koʻproq sevaman ❤️
+                </p>
+              </div>
+              <div class="flip-card-back">
+                <p class="text-xs sm:text-sm leading-relaxed text-center font-medium">
+                  Yuragimning har bir zarbasi faqat sen bilan goʻzal. Sen mening eng bebaho va yagona insonimsan!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Qaror qabul qilish bo'limi -->
+      <section id="decisionSection" class="fade-up mt-8 pt-6 border-t border-rose-200/70 text-center">
+        <h3 class="font-serif italic font-bold text-2xl text-burgundyText mb-1.5">
+          Alingni kechirasanmi, Gulim?
+        </h3>
+        <p id="statusHint" class="text-xs sm:text-sm text-rose-700/90 min-h-[20px] mb-5">
+          Sening birgina shirin tabassumingni kutmoqdaman...
+        </p>
+
+        <div id="buttonsArena" class="relative flex flex-col sm:flex-row items-center justify-center gap-3 min-h-[120px] sm:min-h-[68px]">
+          <button id="yesBtn" type="button"
+            class="z-20 px-7 py-3.5 rounded-full bg-gradient-to-r from-rose-600 to-roseDeep hover:from-rose-700 hover:to-rose-900 text-white font-bold text-sm sm:text-base shadow-lg shadow-rose-500/30 active:scale-95 transition-all">
+            Ha, kechirdim ❤️
+          </button>
+
+          <button id="noBtn" type="button"
+            class="z-10 px-5 py-3 rounded-full bg-warmPeach/90 border border-amber-300 text-burgundyText font-semibold text-xs sm:text-sm shadow-sm transition-transform duration-200 ease-out">
+            Biroz arazlayman 🙈
+          </button>
+        </div>
+      </section>
+
+      <!-- Kechirgandan keyingi Bayramona Oyna -->
+      <section id="acceptedSection" class="hidden mt-8 pt-6 border-t border-rose-200/70 text-center">
+        <div class="rounded-2xl bg-gradient-to-br from-rose-50 to-amber-50 border border-rose-200/90 p-5 mb-5 shadow-inner">
+          <div class="text-3xl mb-2 heart-beat">💖</div>
+          <h3 class="font-serif font-bold text-2xl text-burgundyText mb-2">
+            Rahmat, mening Gulim! ❤️
+          </h3>
+          <p class="text-sm text-rose-950/90 leading-relaxed">
+            Bugun dunyodagi eng baxtli inson — menman! Yuzingdagi tabassum hech qachon arimasin, hayotim.
+          </p>
+        </div>
+
+        <div class="space-y-2.5">
+          <a id="telegramReplyBtn"
+            href="https://t.me/share/url?url=&text=Xayrli%20tong%2C%20Ali!%20Xatingni%20o%27qidim%20va%20musiqani%20eshitdim...%20Albatta%20kechirdim%20%E2%9D%A4%EF%B8%8F"
+            target="_blank" rel="noopener noreferrer"
+            class="w-full py-3.5 px-5 rounded-full bg-gradient-to-r from-rose-600 to-roseDeep hover:from-rose-700 hover:to-rose-900 text-white font-bold text-sm sm:text-base shadow-lg shadow-rose-500/30 active:scale-95 transition-all flex items-center justify-center gap-2">
+            <span>Aliga javob yuborish 💌</span>
+          </a>
+
+          <button id="copyReplyBtn" type="button"
+            class="w-full py-3 px-4 rounded-full bg-sunriseIvory hover:bg-warmPeach/60 border border-amber-300/80 text-burgundyText font-semibold text-xs sm:text-sm active:scale-95 transition-colors">
+            Javob matnini nusxalash 📋
+          </button>
+
+          <p id="copyConfirmation" class="hidden text-xs text-emerald-700 font-bold pt-1">
+            Nusxalandi! Endi Telegramda Aliga yuborishingiz mumkin ❤️
+          </p>
+        </div>
+      </section>
+
+      <!-- Imzo -->
+      <footer class="mt-7 pt-4 border-t border-rose-100 text-center">
+        <p class="font-serif italic text-base text-burgundyText/90">
+          Cheksiz mehr bilan — sening Aling 💐
+        </p>
+      </footer>
+
+    </article>
+  </main>
+
+  <script>
+    /**
+     * 1. VIBRATSIYA (HAPTIC FEEDBACK) YORDAMCHISI
+     */
+    function
